@@ -2,8 +2,11 @@ package org.openredstone;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.openredstone.patch.AntiUpPatch;
 import org.openredstone.patch.DeathPotionsPatch;
 import org.openredstone.patch.EnchantmentPatch;
 import org.openredstone.patch.ExtendedPistonsPatch;
@@ -44,6 +47,14 @@ public class PatchORE extends JavaPlugin {
             ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
             protocolManager.addPacketListener(new PlayerPositionPacketHandler(this));
         }
+        if (config.getBoolean("patches.antiup")) {
+            RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+            Permission perms;
+            if (rsp != null) {
+                perms = rsp.getProvider();
+                getServer().getPluginManager().registerEvents(new AntiUpPatch(this, perms), this);
+            }
+        }
     }
 
     private void setupConfig() {
@@ -64,6 +75,7 @@ public class PatchORE extends JavaPlugin {
             }
 
             // Patch options
+            config.addDefault("patches.antiup", true);
             config.addDefault("patches.fireworks", true);
             config.addDefault("patches.enchantments", true);
             config.addDefault("patches.extendedpistons", true);
