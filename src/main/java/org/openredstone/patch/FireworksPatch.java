@@ -2,14 +2,16 @@ package org.openredstone.patch;
 
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.entity.FireworkExplodeEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.openredstone.PatchORE;
 
 public class FireworksPatch extends Patch implements Listener {
@@ -24,11 +26,27 @@ public class FireworksPatch extends Patch implements Listener {
     }
 
     @EventHandler
-    public void onFireworkExplode(FireworkExplodeEvent event) {
-        fireworkCount--;
-        Firework firework = event.getEntity();
-        firework.setFireworkMeta(filterPower(firework.getFireworkMeta()));
-        firework.setFireworkMeta(filterEffects(firework.getFireworkMeta()));
+    public void onFireworksShoot(EntityShootBowEvent event) {
+        if (!event.getProjectile().getType().equals(EntityType.FIREWORK)) {
+            return;
+        }
+        if (event.isCancelled()) {
+            return;
+        }
+        if (fireworkCount >= maxCount) {
+            event.setCancelled(true);
+            return;
+        }
+
+        fireworkCount++;
+        Firework firework = (Firework) event.getProjectile();
+        FireworkMeta fireworkMeta = firework.getFireworkMeta();
+        fireworkMeta = filterPower(fireworkMeta);
+        fireworkMeta = filterEffects(fireworkMeta);
+        firework.setFireworkMeta(fireworkMeta);
+        event.setProjectile(firework);
+        startDecrementTimer(fireworkMeta.getPower());
+
     }
 
     @EventHandler
@@ -39,13 +57,19 @@ public class FireworksPatch extends Patch implements Listener {
         if (!event.getItem().getType().equals(Material.FIREWORK_ROCKET)) {
             return;
         }
-        if (fireworkCount < maxCount) {
-            fireworkCount++;
-            event.getItem().setItemMeta(filterPower((FireworkMeta) event.getItem().getItemMeta()));
-            event.getItem().setItemMeta(filterEffects((FireworkMeta) event.getItem().getItemMeta()));
-        } else {
-            event.setCancelled(true);
+        if (event.isCancelled()) {
+            return;
         }
+        if (fireworkCount >= maxCount) {
+            event.setCancelled(true);
+            return;
+        }
+
+        fireworkCount++;
+        event.getItem().setItemMeta(filterPower((FireworkMeta) event.getItem().getItemMeta()));
+        event.getItem().setItemMeta(filterEffects((FireworkMeta) event.getItem().getItemMeta()));
+        startDecrementTimer(((FireworkMeta) event.getItem().getItemMeta()).getPower());
+
     }
 
     @EventHandler
@@ -53,13 +77,28 @@ public class FireworksPatch extends Patch implements Listener {
         if (!event.getItem().getType().equals(Material.FIREWORK_ROCKET)) {
             return;
         }
-        if (fireworkCount < maxCount) {
-            fireworkCount++;
-            event.getItem().setItemMeta(filterPower((FireworkMeta) event.getItem().getItemMeta()));
-            event.getItem().setItemMeta(filterEffects((FireworkMeta) event.getItem().getItemMeta()));
-        } else {
-            event.setCancelled(true);
+        if (event.isCancelled()) {
+            return;
         }
+        if (fireworkCount >= maxCount) {
+            event.setCancelled(true);
+            return;
+        }
+
+        fireworkCount++;
+        event.getItem().setItemMeta(filterPower((FireworkMeta) event.getItem().getItemMeta()));
+        event.getItem().setItemMeta(filterEffects((FireworkMeta) event.getItem().getItemMeta()));
+        startDecrementTimer(((FireworkMeta) event.getItem().getItemMeta()).getPower());
+
+    }
+
+    private void startDecrementTimer(int power) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                fireworkCount--;
+            }
+        }.runTaskLater(this.plugin, 20*power);
     }
 
     private FireworkMeta filterPower(FireworkMeta meta) {
