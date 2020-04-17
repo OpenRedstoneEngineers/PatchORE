@@ -70,7 +70,7 @@ public class PatchORE extends JavaPlugin {
             }
 
             // Patch options
-            config.addDefault("patches.antiup", true);
+            config.addDefault("patches.antiup", false);
             config.addDefault("patches.fireworks", true);
             config.addDefault("patches.enchantments", true);
             config.addDefault("patches.extendedpistons", true);
