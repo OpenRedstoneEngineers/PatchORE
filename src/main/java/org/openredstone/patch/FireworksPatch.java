@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,6 +47,21 @@ public class FireworksPatch extends Patch implements Listener {
         firework.setFireworkMeta(fireworkMeta);
         event.setProjectile(firework);
         startDecrementTimer(fireworkMeta.getPower());
+
+    }
+
+    @EventHandler
+    public void onFireworksSpawn(EntitySpawnEvent event) {
+        if (!event.getEntityType().equals(EntityType.FIREWORK)) {
+            return;
+        }
+
+        event.setCancelled(false);
+        Firework firework = (Firework) event.getEntity();
+        FireworkMeta fireworkMeta = firework.getFireworkMeta();
+        fireworkMeta = filterEffects(fireworkMeta);
+        fireworkMeta = filterPower(fireworkMeta);
+        firework.setFireworkMeta(fireworkMeta);
 
     }
 
