@@ -17,7 +17,7 @@ public class PlayerInventoryPacketHandler extends PacketAdapter {
     private JavaPlugin plugin;
 
     public PlayerInventoryPacketHandler(JavaPlugin plugin) {
-        super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.HELD_ITEM_SLOT);
+        super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.ENTITY_NBT_QUERY);
         this.plugin = plugin;
         this.syncExecutor = BukkitExecutors.newSynchronous(plugin);
     }
@@ -25,7 +25,7 @@ public class PlayerInventoryPacketHandler extends PacketAdapter {
     @Override
     public void onPacketReceiving(PacketEvent event) {
 
-        if (event.getPacketType() != PacketType.Play.Client.HELD_ITEM_SLOT) return;
+        if (event.getPacketType() != PacketType.Play.Client.ENTITY_NBT_QUERY) return;
         StructureModifier<Double> doubles = event.getPacket().getDoubles();
 
         if (doubles.read(0) < 2097151) return;
