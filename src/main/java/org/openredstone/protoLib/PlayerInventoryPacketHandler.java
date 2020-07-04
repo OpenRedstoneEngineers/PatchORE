@@ -39,6 +39,11 @@ public class PlayerInventoryPacketHandler extends PacketAdapter {
 
     private void clearNBT(Player player) {
         player.getInventory().clear();
+        player.sendMessage(
+            ChatColor.DARK_GRAY + "[" +
+                ChatColor.GRAY + plugin.getName() +
+                ChatColor.DARK_GRAY + "]" +
+                ChatColor.GOLD + ChatColor.BOLD + "Your inventory was cleared due to an NBT overload.");
     }
 
 }
