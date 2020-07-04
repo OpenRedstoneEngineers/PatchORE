@@ -39,6 +39,7 @@ public class PlayerInventoryPacketHandler extends PacketAdapter {
 
     private void clearNBT(Player player) {
         player.getInventory().clear();
+        player.getInventory().update();
         player.sendMessage(
             ChatColor.DARK_GRAY + "[" +
                 ChatColor.GRAY + plugin.getName() +
