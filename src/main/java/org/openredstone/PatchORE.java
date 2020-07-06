@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.openredstone.patch.*;
 import org.openredstone.protoLib.PlayerPositionPacketHandler;
+import org.openredstone.protoLib.PlayerInventoryPacketHandler;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -41,6 +42,10 @@ public class PatchORE extends JavaPlugin {
         if (config.getBoolean("patches.void")) {
             ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
             protocolManager.addPacketListener(new PlayerPositionPacketHandler(this));
+        }
+        if (config.getBoolean("patches.nbt")) {
+            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+            protocolManager.addPacketListener(new PlayerInventoryPacketHandler(this));
         }
         if (config.getBoolean("patches.antiup")) {
             RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
@@ -77,6 +82,7 @@ public class PatchORE extends JavaPlugin {
             config.addDefault("patches.spawneggs", true);
             config.addDefault("patches.deathpotions", true);
             config.addDefault("patches.void", true);
+            config.addDefault("patches.nbt", true);
 
             // Fireworks options
             config.addDefault("fireworks.power", 5);

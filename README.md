@@ -1,3 +1,4 @@
+
 ## PatchORE
 This fixes things. Said things were either "broken" or a big nuissance on our creative network.
 
@@ -9,5 +10,6 @@ This fixes things. Said things were either "broken" or a big nuissance on our cr
 * Illegal packets when entering the void
 * Firework restrictions
 * Enchantment restrictions
+* NBT overloads
 
 Special thanks to [StackDoubleFlow](https://github.com/StackDoubleFlow) for [putting together the patch for illegal void packets](https://github.com/StackDoubleFlow/IHateTheVoid).
