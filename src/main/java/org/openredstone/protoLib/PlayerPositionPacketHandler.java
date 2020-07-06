@@ -18,7 +18,7 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
 
     public PlayerPositionPacketHandler(JavaPlugin plugin) {
         super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.POSITION,
-                PacketType.Play.Client.POSITION_LOOK);
+            PacketType.Play.Client.POSITION_LOOK);
         this.plugin = plugin;
         this.syncExecutor = BukkitExecutors.newSynchronous(plugin);
     }
@@ -26,7 +26,7 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
     @Override
     public void onPacketReceiving(PacketEvent event) {
         if (event.getPacketType() != PacketType.Play.Client.POSITION_LOOK &&
-                event.getPacketType() != PacketType.Play.Client.POSITION) {
+            event.getPacketType() != PacketType.Play.Client.POSITION) {
             return;
         }
         StructureModifier<Double> doubles = event.getPacket().getDoubles();
@@ -37,18 +37,16 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
             return;
         }
         event.setCancelled(true);
-        syncExecutor.execute(() -> {
-            fixPlayer(event.getPlayer());
-        });
+        syncExecutor.execute(() -> fixPlayer(event.getPlayer()));
     }
 
     private void fixPlayer(Player player) {
         player.teleport(player.getWorld().getSpawnLocation());
         player.sendMessage(
-                ChatColor.DARK_GRAY + "[" +
-                        ChatColor.GRAY + plugin.getName() +
-                        ChatColor.DARK_GRAY + "] " +
-                        ChatColor.GOLD + ChatColor.BOLD + "You were sent back to spawn due to an invalid location.");
+            ChatColor.DARK_GRAY + "[" +
+                ChatColor.GRAY + plugin.getName() +
+                ChatColor.DARK_GRAY + "] " +
+                ChatColor.GOLD + ChatColor.BOLD + "You were sent back to spawn due to an invalid location.");
     }
 
     private static boolean isValid(double d) {

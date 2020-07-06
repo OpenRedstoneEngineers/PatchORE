@@ -24,22 +24,19 @@ public class PlayerInventoryPacketHandler extends PacketAdapter {
 
     @Override
     public void onPacketReceiving(PacketEvent event) {
-
-        if (event.getPacketType() != PacketType.Play.Client.ENTITY_NBT_QUERY) return;
-        StructureModifier<Double> doubles = event.getPacket().getDoubles();
-
-        if (doubles.read(0) < 2097151) return;
-        else {
-            event.setCancelled(true);
-            syncExecutor.execute(() -> {
-                clearNBT(event.getPlayer());
-            });
+        if (event.getPacketType() != PacketType.Play.Client.ENTITY_NBT_QUERY) {
+            return;
         }
+        StructureModifier<Double> doubles = event.getPacket().getDoubles();
+        if (doubles.read(0) < 2097151) {
+            return;
+        }
+        event.setCancelled(true);
+        syncExecutor.execute(() -> clearNBT(event.getPlayer()));
     }
 
     private void clearNBT(Player player) {
         player.getInventory().clear();
-        player.getInventory().update();
         player.sendMessage(
             ChatColor.DARK_GRAY + "[" +
                 ChatColor.GRAY + plugin.getName() +
