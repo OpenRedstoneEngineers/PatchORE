@@ -93,10 +93,15 @@ public class SpawnEggsPatch extends Patch implements Listener {
                         NBTType type = entityCompound.getType(formattedKey);
                         switch (type) {
                             case NBTTagEnd:
-                                break;
                             case NBTTagByte:
-                                break;
                             case NBTTagShort:
+                            case NBTTagFloat:
+                            case NBTTagDouble:
+                            case NBTTagByteArray:
+                            case NBTTagLong:
+                            case NBTTagIntArray:
+                            case NBTTagList:
+                            case NBTTagCompound:
                                 break;
                             case NBTTagInt: {
                                 int var = entityCompound.getInteger(formattedKey);
@@ -105,16 +110,6 @@ public class SpawnEggsPatch extends Patch implements Listener {
                                 }
                                 break;
                             }
-                            case NBTTagLong:
-                                break;
-                            case NBTTagFloat:
-                                break;
-                            case NBTTagDouble:
-                                break;
-                            case NBTTagByteArray:
-                                break;
-                            case NBTTagIntArray:
-                                break;
                             case NBTTagString: {
                                 String var = entityCompound.getString(formattedKey);
                                 if (var.equals(configurationSection.getString(key + "." + subKey))) {
@@ -122,10 +117,6 @@ public class SpawnEggsPatch extends Patch implements Listener {
                                 }
                                 break;
                             }
-                            case NBTTagList:
-                                break;
-                            case NBTTagCompound:
-                                break;
                         }
                     }
                 }

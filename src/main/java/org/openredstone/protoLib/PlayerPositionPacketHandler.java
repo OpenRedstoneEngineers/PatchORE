@@ -44,9 +44,9 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
         player.teleport(player.getWorld().getSpawnLocation());
         player.sendMessage(
             ChatColor.DARK_GRAY + "[" +
-                ChatColor.GRAY + plugin.getName() +
-                ChatColor.DARK_GRAY + "] " +
-                ChatColor.GOLD + ChatColor.BOLD + "You were sent back to spawn due to an invalid location.");
+            ChatColor.GRAY + plugin.getName() +
+            ChatColor.DARK_GRAY + "] " +
+            ChatColor.GOLD + ChatColor.BOLD + "You were sent back to spawn due to an invalid location.");
     }
 
     private static boolean isValid(double d) {

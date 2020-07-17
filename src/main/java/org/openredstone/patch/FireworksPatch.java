@@ -42,8 +42,8 @@ public class FireworksPatch extends Patch implements Listener {
         fireworkCount++;
         Firework firework = (Firework) event.getProjectile();
         FireworkMeta fireworkMeta = firework.getFireworkMeta();
-        fireworkMeta = filterPower(fireworkMeta);
-        fireworkMeta = filterEffects(fireworkMeta);
+        filterPower(fireworkMeta);
+        filterEffects(fireworkMeta);
         firework.setFireworkMeta(fireworkMeta);
         event.setProjectile(firework);
         startDecrementTimer(fireworkMeta.getPower());
@@ -59,8 +59,8 @@ public class FireworksPatch extends Patch implements Listener {
         event.setCancelled(false);
         Firework firework = (Firework) event.getEntity();
         FireworkMeta fireworkMeta = firework.getFireworkMeta();
-        fireworkMeta = filterEffects(fireworkMeta);
-        fireworkMeta = filterPower(fireworkMeta);
+        filterEffects(fireworkMeta);
+        filterPower(fireworkMeta);
         firework.setFireworkMeta(fireworkMeta);
 
     }

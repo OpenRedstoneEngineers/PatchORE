@@ -16,9 +16,11 @@ import java.util.logging.Level;
 public class PatchORE extends JavaPlugin {
 
     public static FileConfiguration config;
+    private ProtocolManager protocolManager;
 
     @Override
     public void onEnable() {
+        protocolManager = ProtocolLibrary.getProtocolManager();
         setupConfig();
         loadPatches();
     }
@@ -40,11 +42,9 @@ public class PatchORE extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new DeathPotionsPatch(this), this);
         }
         if (config.getBoolean("patches.void")) {
-            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
             protocolManager.addPacketListener(new PlayerPositionPacketHandler(this));
         }
         if (config.getBoolean("patches.nbt")) {
-            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
             protocolManager.addPacketListener(new PlayerInventoryPacketHandler(this));
         }
         if (config.getBoolean("patches.antiup")) {
