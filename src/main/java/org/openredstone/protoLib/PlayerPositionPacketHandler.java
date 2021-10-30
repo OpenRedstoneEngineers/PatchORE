@@ -1,7 +1,5 @@
 package org.openredstone.protoLib;
 
-import com.comphenix.executors.BukkitExecutors;
-import com.comphenix.executors.BukkitScheduledExecutorService;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
@@ -13,14 +11,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerPositionPacketHandler extends PacketAdapter {
 
-    private final BukkitScheduledExecutorService syncExecutor;
     private JavaPlugin plugin;
 
     public PlayerPositionPacketHandler(JavaPlugin plugin) {
         super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.POSITION,
             PacketType.Play.Client.POSITION_LOOK);
         this.plugin = plugin;
-        this.syncExecutor = BukkitExecutors.newSynchronous(plugin);
     }
 
     @Override
@@ -37,7 +33,7 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
             return;
         }
         event.setCancelled(true);
-        syncExecutor.execute(() -> fixPlayer(event.getPlayer()));
+        plugin.getServer().getScheduler().runTask(plugin, () -> fixPlayer(event.getPlayer()));
     }
 
     private void fixPlayer(Player player) {

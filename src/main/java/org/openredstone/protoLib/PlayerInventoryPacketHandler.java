@@ -1,7 +1,5 @@
 package org.openredstone.protoLib;
 
-import com.comphenix.executors.BukkitExecutors;
-import com.comphenix.executors.BukkitScheduledExecutorService;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
@@ -13,13 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerInventoryPacketHandler extends PacketAdapter {
 
-    private final BukkitScheduledExecutorService syncExecutor;
     private JavaPlugin plugin;
 
     public PlayerInventoryPacketHandler(JavaPlugin plugin) {
         super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.ENTITY_NBT_QUERY);
         this.plugin = plugin;
-        this.syncExecutor = BukkitExecutors.newSynchronous(plugin);
     }
 
     @Override
@@ -32,7 +28,7 @@ public class PlayerInventoryPacketHandler extends PacketAdapter {
             return;
         }
         event.setCancelled(true);
-        syncExecutor.execute(() -> clearNBT(event.getPlayer()));
+        plugin.getServer().getScheduler().runTask(plugin, () -> clearNBT(event.getPlayer()));
     }
 
     private void clearNBT(Player player) {

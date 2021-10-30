@@ -6,7 +6,7 @@
 
     <groupId>org.openredstone</groupId>
     <artifactId>PatchORE</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -50,13 +50,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.5.1</version>
+            <version>4.7.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.intellectualsites.plotsquared</groupId>
