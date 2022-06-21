@@ -55,6 +55,9 @@ public class PatchORE extends JavaPlugin {
                 getServer().getPluginManager().registerEvents(new AntiUpPatch(this, perms), this);
             }
         }
+        if (config.getBoolean("patches.commandsigns")) {
+            getServer().getPluginManager().registerEvents(new CommandSignPatch(this), this);
+        }
     }
 
     private void setupConfig() {
@@ -83,6 +86,7 @@ public class PatchORE extends JavaPlugin {
             config.addDefault("patches.deathpotions", true);
             config.addDefault("patches.void", true);
             config.addDefault("patches.nbt", true);
+            config.addDefault("patches.commandsigns", true);
 
             // Fireworks options
             config.addDefault("fireworks.power", 5);
