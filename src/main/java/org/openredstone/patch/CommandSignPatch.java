@@ -73,11 +73,11 @@ public class CommandSignPatch extends Patch implements Listener {
     public void onServerCommand(ServerCommandEvent event) {
         CommandSender commandSender = event.getSender();
 
-        if (commandSender instanceof BlockCommandSender) {
-            Material type = ((BlockCommandSender) commandSender).getBlock().getType();
+        if (!(commandSender instanceof BlockCommandSender)) return;
 
-            if (!(type == Material.COMMAND_BLOCK || type == Material.CHAIN_COMMAND_BLOCK || type == Material.REPEATING_COMMAND_BLOCK))
-                event.setCancelled(true);
-        }
+        Material type = ((BlockCommandSender) commandSender).getBlock().getType();
+
+        if (!(type == Material.COMMAND_BLOCK || type == Material.CHAIN_COMMAND_BLOCK || type == Material.REPEATING_COMMAND_BLOCK))
+            event.setCancelled(true);
     }
 }
