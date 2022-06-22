@@ -1,6 +1,5 @@
 package org.openredstone.patch;
 
-import com.google.gson.JsonSyntaxException;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTType;
