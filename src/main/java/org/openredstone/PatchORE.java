@@ -2,9 +2,7 @@ package org.openredstone;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.openredstone.patch.*;
 import org.openredstone.protoLib.PlayerPositionPacketHandler;
@@ -46,14 +44,6 @@ public class PatchORE extends JavaPlugin {
         }
         if (config.getBoolean("patches.nbt")) {
             protocolManager.addPacketListener(new PlayerInventoryPacketHandler(this));
-        }
-        if (config.getBoolean("patches.antiup")) {
-            RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-            Permission perms;
-            if (rsp != null) {
-                perms = rsp.getProvider();
-                getServer().getPluginManager().registerEvents(new AntiUpPatch(this, perms), this);
-            }
         }
     }
 
