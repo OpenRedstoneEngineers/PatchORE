@@ -101,13 +101,14 @@ public class DeathPotionsPatch extends Patch implements Listener {
 
     private boolean hasLegalEffects(List<PotionEffect> potionEffects) {
         for (PotionEffect effect : potionEffects) {
-            if(!safeEffectsSet.contains(effect.getType())) {
-                if (effect.getType().equals(PotionEffectType.HEAL) && (effect.getAmplifier() > maxAmplifier)) {
-                    return false;
-                }
-                if (effect.getDuration() > maxDuration) {
-                    return false;
-                }
+            if (safeEffectsSet.contains(effect.getType())) {
+                continue;
+            }
+            if (effect.getType().equals(PotionEffectType.HEAL) && (effect.getAmplifier() > maxAmplifier)) {
+                return false;
+            }
+            if (effect.getDuration() > maxDuration) {
+                return false;
             }
         }
         return true;
