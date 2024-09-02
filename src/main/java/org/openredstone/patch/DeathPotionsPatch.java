@@ -13,12 +13,51 @@ import org.bukkit.potion.PotionEffectType;
 import org.openredstone.PatchORE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class DeathPotionsPatch extends Patch implements Listener {
 
     private int maxAmplifier = PatchORE.config.getInt("deathpotions.max_amplifier");
     private int maxDuration = PatchORE.config.getInt("deathpotions.max_duration");
+
+    private final HashSet<PotionEffectType> safeEffectsSet = new HashSet<>(Arrays.asList(
+        //PotionEffectType.POISON,
+        //PotionEffectType.WITHER,
+        //PotionEffectType.HEALTH_BOOST,
+        //PotionEffectType.ABSORPTION,
+        //PotionEffectType.HEAL,
+        //PotionEffectType.HARM,
+        //PotionEffectType.REGENERATION,
+
+        //PotionEffectType.INCREASE_DAMAGE,
+        //PotionEffectType.SPEED,
+        //PotionEffectType.DOLPHINS_GRACE,
+        //PotionEffectType.CONFUSION,
+        PotionEffectType.SLOW,
+        PotionEffectType.FAST_DIGGING,
+        PotionEffectType.SLOW_DIGGING,
+        PotionEffectType.JUMP,
+        PotionEffectType.DAMAGE_RESISTANCE,
+        PotionEffectType.FIRE_RESISTANCE,
+        PotionEffectType.WATER_BREATHING,
+        PotionEffectType.INVISIBILITY,
+        PotionEffectType.BLINDNESS,
+        PotionEffectType.NIGHT_VISION,
+        PotionEffectType.HUNGER,
+        PotionEffectType.WEAKNESS,
+        PotionEffectType.SATURATION,
+        PotionEffectType.GLOWING,
+        PotionEffectType.LEVITATION,
+        PotionEffectType.LUCK,
+        PotionEffectType.UNLUCK,
+        PotionEffectType.SLOW_FALLING,
+        PotionEffectType.CONDUIT_POWER,
+        PotionEffectType.BAD_OMEN,
+        PotionEffectType.HERO_OF_THE_VILLAGE
+    ));
+
 
     public DeathPotionsPatch(JavaPlugin plugin) {
         super(plugin);
@@ -62,6 +101,9 @@ public class DeathPotionsPatch extends Patch implements Listener {
 
     private boolean hasLegalEffects(List<PotionEffect> potionEffects) {
         for (PotionEffect effect : potionEffects) {
+            if (safeEffectsSet.contains(effect.getType())) {
+                continue;
+            }
             if (effect.getType().equals(PotionEffectType.HEAL) && (effect.getAmplifier() > maxAmplifier)) {
                 return false;
             }
