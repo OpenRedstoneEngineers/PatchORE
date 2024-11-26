@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,8 +17,10 @@ public class ExtendedPistonsPatch extends Patch implements Listener {
         super(plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
+
+        if (event.isCancelled()) return;
 
         if (event.getBlock().getBlockData().getMaterial().equals(Material.PISTON)) {
 
